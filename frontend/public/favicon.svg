@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f97316"/>
+      <stop offset="100%" style="stop-color:#ea580c"/>
+    </linearGradient>
+  </defs>
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="url(#grad)"/>
+  <!-- Clock face -->
+  <circle cx="32" cy="32" r="22" fill="white"/>
+  <!-- Hour marks -->
+  <g fill="#1f2937" opacity="0.3">
+    <rect x="31" y="12" width="2" height="4" rx="1"/>
+    <rect x="31" y="48" width="2" height="4" rx="1"/>
+    <rect x="12" y="31" width="4" height="2" rx="1"/>
+    <rect x="48" y="31" width="4" height="2" rx="1"/>
+  </g>
+  <!-- Clock hands -->
+  <g stroke="#1f2937" stroke-linecap="round">
+    <!-- Hour hand -->
+    <line x1="32" y1="32" x2="32" y2="22" stroke-width="3"/>
+    <!-- Minute hand -->
+    <line x1="32" y1="32" x2="42" y2="32" stroke-width="2"/>
+  </g>
+  <!-- Center dot -->
+  <circle cx="32" cy="32" r="3" fill="#f97316"/>
+  <!-- Budget bars -->
+  <g fill="#f97316">
+    <rect x="18" y="38" width="6" height="10" rx="1" opacity="0.8"/>
+    <rect x="26" y="34" width="6" height="14" rx="1" opacity="0.9"/>
+    <rect x="34" y="30" width="6" height="18" rx="1"/>
+  </g>
+</svg>

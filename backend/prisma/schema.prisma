@@ -1,0 +1,236 @@
+// ===========================================
+// TimeBudget - Prisma Schema
+// ===========================================
+// Gestiona tu tiempo como un presupuesto
+// ===========================================
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ===========================================
+// MÓDULO: Auth
+// ===========================================
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  timeBudgets      TimeBudget[]
+  activities       Activity[]
+  priorities       Priority[]
+  calendarBlocks   CalendarBlock[]
+  eliminations     Elimination[]
+  weeklyReviews    WeeklyReview[]
+
+  @@map("users")
+}
+
+// ===========================================
+// MÓDULO: TimeBudget (Presupuesto de Tiempo)
+// ===========================================
+
+model TimeBudget {
+  id        String   @id @default(uuid())
+  userId    String
+  weekStart DateTime // Inicio de la semana (lunes)
+  
+  // Presupuesto base en minutos
+  sleepMinutes      Int @default(3360)  // 8h * 7 días = 3360 min
+  workMinutes       Int @default(2400)  // 8h * 5 días = 2400 min
+  mealsMinutes      Int @default(630)   // 1.5h * 7 días = 630 min
+  hygieneMinutes    Int @default(420)   // 1h * 7 días = 420 min
+  transportMinutes  Int @default(300)   // Variable
+  
+  // Tiempo disponible calculado (10080 min/semana - base)
+  availableMinutes  Int @default(3270)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activities Activity[]
+
+  @@unique([userId, weekStart])
+  @@map("time_budgets")
+}
+
+// ===========================================
+// MÓDULO: ActivityTracking (Registro de Actividades)
+// ===========================================
+
+model Activity {
+  id           String   @id @default(uuid())
+  userId       String
+  timeBudgetId String?
+  
+  name         String
+  description  String?
+  categoryId   String
+  durationMinutes Int
+  date         DateTime
+  
+  // Valoración de la actividad
+  alignedWithPriorities Boolean @default(false)
+  satisfactionLevel     Int?    @db.SmallInt // 1-5
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timeBudget TimeBudget? @relation(fields: [timeBudgetId], references: [id], onDelete: SetNull)
+  category   Category    @relation(fields: [categoryId], references: [id])
+
+  @@map("activities")
+}
+
+model Category {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+  color       String  @default("#6B7280") // Color hex para UI
+  icon        String? // Nombre del icono
+  isDefault   Boolean @default(false)
+  
+  // Relaciones
+  activities Activity[]
+
+  @@map("categories")
+}
+
+// ===========================================
+// MÓDULO: Priorities (Prioridades Vitales)
+// ===========================================
+
+model Priority {
+  id          String   @id @default(uuid())
+  userId      String
+  
+  name        String
+  description String?
+  order       Int      @default(0) // Orden de importancia (1-4)
+  
+  // Tiempo asignado semanalmente en minutos
+  allocatedMinutes Int @default(0)
+  
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relaciones
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("priorities")
+}
+
+// ===========================================
+// MÓDULO: CalendarBlocking (Bloqueo de Calendario)
+// ===========================================
+
+model CalendarBlock {
+  id         String   @id @default(uuid())
+  userId     String
+  
+  title      String
+  startTime  DateTime
+  endTime    DateTime
+  
+  // Tipo de bloque
+  blockType  BlockType @default(PRIORITY)
+  
+  // Recurrencia
+  isRecurring Boolean @default(false)
+  recurrence  RecurrenceType?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("calendar_blocks")
+}
+
+enum BlockType {
+  PRIORITY    // Bloque para prioridad vital
+  ROUTINE     // Rutina diaria
+  PROTECTED   // Tiempo protegido personal
+}
+
+enum RecurrenceType {
+  DAILY
+  WEEKLY
+  WEEKDAYS
+  CUSTOM
+}
+
+// ===========================================
+// MÓDULO: Elimination (Eliminación de Actividades)
+// ===========================================
+
+model Elimination {
+  id          String   @id @default(uuid())
+  userId      String
+  
+  activityName String
+  reason       String?
+  
+  // Tiempo recuperado en minutos
+  recoveredMinutes Int @default(0)
+  
+  eliminatedAt DateTime @default(now())
+
+  // Relaciones
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("eliminations")
+}
+
+// ===========================================
+// MÓDULO: WeeklyReview (Revisión Semanal)
+// ===========================================
+
+model WeeklyReview {
+  id         String   @id @default(uuid())
+  userId     String
+  weekStart  DateTime
+  
+  // Métricas de la semana
+  totalTrackedMinutes    Int @default(0)
+  priorityAlignedMinutes Int @default(0)
+  wastedMinutes          Int @default(0)
+  
+  // Reflexión
+  wins           String[] // Logros de la semana
+  challenges     String[] // Desafíos encontrados
+  improvements   String[] // Mejoras para la siguiente semana
+  
+  // Puntuación general (0-100)
+  overallScore Int?
+  
+  // Estado
+  isCompleted Boolean @default(false)
+  completedAt DateTime?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, weekStart])
+  @@map("weekly_reviews")
+}
