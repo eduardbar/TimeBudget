@@ -38,11 +38,12 @@ export function formatPercentage(value: number, decimals = 0): string {
 export function formatDate(date: Date | string, format: 'short' | 'long' | 'full' = 'short'): string {
   const d = typeof date === 'string' ? new Date(date) : date;
   
-  const options: Intl.DateTimeFormatOptions = {
-    short: { day: 'numeric', month: 'short' },
-    long: { day: 'numeric', month: 'long', year: 'numeric' },
-    full: { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' },
-  }[format];
+  const options: Intl.DateTimeFormatOptions = 
+    format === 'short' 
+      ? { day: 'numeric', month: 'short' }
+      : format === 'long'
+        ? { day: 'numeric', month: 'long', year: 'numeric' }
+        : { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
   
   return d.toLocaleDateString('es-ES', options);
 }

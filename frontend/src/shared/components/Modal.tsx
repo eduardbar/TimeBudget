@@ -2,7 +2,7 @@
 // TimeBudget - Modal Component
 // ===========================================
 
-import { Fragment, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { clsx } from 'clsx';
 
 export interface ModalProps {

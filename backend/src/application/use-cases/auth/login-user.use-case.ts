@@ -12,14 +12,10 @@ export interface IPasswordComparer {
   compare(password: string, hash: string): Promise<boolean>;
 }
 
-export interface ITokenGenerator {
-  generate(userId: string): string;
-}
-
 export interface LoginUserDependencies {
   userRepository: IUserRepository;
   passwordComparer: IPasswordComparer;
-  tokenGenerator: ITokenGenerator;
+  tokenGenerator: { generate(userId: string): string };
 }
 
 export class LoginUserUseCase {

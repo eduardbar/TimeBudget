@@ -23,7 +23,7 @@ interface ActivityActions {
   clearError: () => void;
 }
 
-export const useActivityStore = create<ActivityState & ActivityActions>((set, get) => ({
+export const useActivityStore = create<ActivityState & ActivityActions>((set) => ({
   activities: [],
   categories: [],
   isLoading: false,

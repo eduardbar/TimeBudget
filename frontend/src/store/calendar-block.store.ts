@@ -29,7 +29,7 @@ interface CalendarBlockActions {
   clearError: () => void;
 }
 
-export const useCalendarBlockStore = create<CalendarBlockState & CalendarBlockActions>((set, get) => ({
+export const useCalendarBlockStore = create<CalendarBlockState & CalendarBlockActions>((set) => ({
   blocks: [],
   isLoading: false,
   error: null,
@@ -56,7 +56,7 @@ export const useCalendarBlockStore = create<CalendarBlockState & CalendarBlockAc
 
     set({ isLoading: true, error: null });
 
-    const response = await api.calendarBlocks.create(token, data);
+    const response = await api.calendarBlocks.create(token, data as unknown as Record<string, unknown>);
 
     if (response.success && response.data) {
       const newBlock = response.data as CalendarBlock;

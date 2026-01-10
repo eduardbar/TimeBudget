@@ -58,7 +58,7 @@ export const useEliminationStore = create<EliminationState & EliminationActions>
 
     set({ isLoading: true, error: null });
 
-    const response = await api.eliminations.create(token, data);
+    const response = await api.eliminations.create(token, data as unknown as Record<string, unknown>);
 
     if (response.success && response.data) {
       const newElimination = response.data as Elimination;

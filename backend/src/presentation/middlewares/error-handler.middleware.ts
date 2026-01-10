@@ -3,7 +3,7 @@
 // ===========================================
 
 import type { Request, Response, NextFunction } from 'express';
-import { DomainError } from '../../../domain/errors/domain-errors.js';
+import { DomainError } from '../../domain/errors/domain-errors.js';
 
 export interface ApiError {
   success: false;
