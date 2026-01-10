@@ -51,6 +51,11 @@ export const eliminationController = {
       const useCase = new GetEliminationsUseCase({ eliminationRepository });
       const result = await useCase.execute(req.userId);
 
+      if (isFailure(result)) {
+        res.status(500).json({ success: false, error: { code: 'ERROR', message: 'Error fetching eliminations' } });
+        return;
+      }
+
       res.json({ success: true, data: result.value });
     } catch (error) {
       next(error);

@@ -12,7 +12,7 @@ import { ActivityRepository } from '../../infrastructure/database/repositories/a
 import { TimeBudgetRepository } from '../../infrastructure/database/repositories/time-budget.repository.js';
 import prisma from '../../infrastructure/database/prisma/client.js';
 import { validate, completeWeeklyReviewSchema } from '../validators/index.js';
-import { isFailure } from '../../domain/value-objects/result.js';
+import { isFailure, isSuccess } from '../../domain/value-objects/result.js';
 
 const weeklyReviewRepository = new WeeklyReviewRepository(prisma);
 const activityRepository = new ActivityRepository(prisma);
@@ -31,7 +31,11 @@ export const weeklyReviewController = {
       const useCase = new GetWeeklyReviewUseCase({ weeklyReviewRepository, activityRepository, timeBudgetRepository });
       const result = await useCase.execute(req.userId, weekStart);
 
-      res.json({ success: true, data: result.value });
+      if (isSuccess(result)) {
+        res.json({ success: true, data: result.value });
+        return;
+      }
+      res.status(500).json({ success: false, error: { code: 'INTERNAL_ERROR', message: 'Error al obtener revisión semanal' } });
     } catch (error) {
       next(error);
     }
@@ -77,7 +81,11 @@ export const weeklyReviewController = {
       const useCase = new GetReviewHistoryUseCase({ weeklyReviewRepository });
       const result = await useCase.execute(req.userId, limit);
 
-      res.json({ success: true, data: result.value });
+      if (isSuccess(result)) {
+        res.json({ success: true, data: result.value });
+        return;
+      }
+      res.status(500).json({ success: false, error: { code: 'INTERNAL_ERROR', message: 'Error al obtener historial' } });
     } catch (error) {
       next(error);
     }

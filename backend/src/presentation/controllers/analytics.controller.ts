@@ -11,6 +11,7 @@ import { TimeBudgetRepository } from '../../infrastructure/database/repositories
 import { CategoryRepository } from '../../infrastructure/database/repositories/category.repository.js';
 import { WeeklyReviewRepository } from '../../infrastructure/database/repositories/weekly-review.repository.js';
 import prisma from '../../infrastructure/database/prisma/client.js';
+import { isFailure } from '../../domain/value-objects/result.js';
 
 const activityRepository = new ActivityRepository(prisma);
 const timeBudgetRepository = new TimeBudgetRepository(prisma);
@@ -30,6 +31,11 @@ export const analyticsController = {
       const useCase = new GetWeeklyAnalyticsUseCase({ activityRepository, timeBudgetRepository, categoryRepository });
       const result = await useCase.execute(req.userId, weekStart);
 
+      if (isFailure(result)) {
+        res.status(500).json({ success: false, error: { code: 'ERROR', message: 'Error fetching analytics' } });
+        return;
+      }
+
       res.json({ success: true, data: result.value });
     } catch (error) {
       next(error);
@@ -47,6 +53,11 @@ export const analyticsController = {
       
       const useCase = new GetTrendsUseCase({ weeklyReviewRepository });
       const result = await useCase.execute(req.userId, weeks);
+
+      if (isFailure(result)) {
+        res.status(500).json({ success: false, error: { code: 'ERROR', message: 'Error fetching trends' } });
+        return;
+      }
 
       res.json({ success: true, data: result.value });
     } catch (error) {

@@ -55,6 +55,11 @@ export const priorityController = {
       const useCase = new GetPrioritiesUseCase({ priorityRepository });
       const result = await useCase.execute(req.userId, onlyActive);
 
+      if (isFailure(result)) {
+        res.status(500).json({ success: false, error: { code: 'ERROR', message: 'Error fetching priorities' } });
+        return;
+      }
+
       res.json({ success: true, data: result.value });
     } catch (error) {
       next(error);

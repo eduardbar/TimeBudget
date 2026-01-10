@@ -65,6 +65,11 @@ export const activityController = {
         offset: offset ? parseInt(offset as string, 10) : undefined,
       });
 
+      if (isFailure(result)) {
+        res.status(500).json({ success: false, error: { code: 'ERROR', message: 'Error fetching activities' } });
+        return;
+      }
+
       res.json({ success: true, data: result.value });
     } catch (error) {
       next(error);

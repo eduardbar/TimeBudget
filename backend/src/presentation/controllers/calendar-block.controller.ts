@@ -57,6 +57,11 @@ export const calendarBlockController = {
         endDate: endDate as string | undefined,
       });
 
+      if (isFailure(result)) {
+        res.status(500).json({ success: false, error: { code: 'ERROR', message: 'Error fetching calendar blocks' } });
+        return;
+      }
+
       res.json({ success: true, data: result.value });
     } catch (error) {
       next(error);
