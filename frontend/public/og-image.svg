@@ -1,15 +1,112 @@
 <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#7C3AED;stop-opacity:1" />
+    <!-- Gradiente principal -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1e293b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
     </linearGradient>
+    <!-- Gradiente para el texto principal -->
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1" />
+      <stop offset="50%" style="stop-color:#8b5cf6" />
+      <stop offset="100%" style="stop-color:#a855f7" />
+    </linearGradient>
+    <!-- Glow effect -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Sombra suave -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#6366f1" flood-opacity="0.3"/>
+    </filter>
   </defs>
-  <rect width="1200" height="630" fill="url(#grad1)" />
-  <text x="50%" y="45%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="80" font-weight="bold" fill="white">TimeBudget</text>
-  <text x="50%" y="60%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="40" fill="#E0E7FF">Treat your time like money</text>
-  <!-- Simple clock icon representation -->
-  <circle cx="600" cy="200" r="40" stroke="white" stroke-width="5" fill="none" />
-  <line x1="600" y1="200" x2="600" y2="180" stroke="white" stroke-width="5" />
-  <line x1="600" y1="200" x2="620" y2="200" stroke="white" stroke-width="5" />
+  
+  <!-- Fondo -->
+  <rect width="1200" height="630" fill="url(#bgGradient)" />
+  
+  <!-- Patron de puntos decorativo -->
+  <g fill="#334155" opacity="0.3">
+    <circle cx="100" cy="100" r="2" />
+    <circle cx="150" cy="100" r="2" />
+    <circle cx="200" cy="100" r="2" />
+    <circle cx="100" cy="150" r="2" />
+    <circle cx="150" cy="150" r="2" />
+    <circle cx="200" cy="150" r="2" />
+    <circle cx="1000" cy="500" r="2" />
+    <circle cx="1050" cy="500" r="2" />
+    <circle cx="1100" cy="500" r="2" />
+    <circle cx="1000" cy="550" r="2" />
+    <circle cx="1050" cy="550" r="2" />
+    <circle cx="1100" cy="550" r="2" />
+  </g>
+  
+  <!-- Circulos decorativos de fondo -->
+  <circle cx="150" cy="500" r="200" fill="#6366f1" opacity="0.05" />
+  <circle cx="1050" cy="130" r="180" fill="#8b5cf6" opacity="0.05" />
+  
+  <!-- Logo/Icono del reloj con moneda -->
+  <g transform="translate(600, 180)" filter="url(#shadow)">
+    <!-- Circulo exterior (reloj) -->
+    <circle cx="0" cy="0" r="70" stroke="url(#textGradient)" stroke-width="4" fill="none" opacity="0.9"/>
+    <!-- Circulo interior -->
+    <circle cx="0" cy="0" r="55" stroke="#475569" stroke-width="1" fill="none" opacity="0.5"/>
+    <!-- Marcas de las horas -->
+    <g stroke="#94a3b8" stroke-width="2">
+      <line x1="0" y1="-45" x2="0" y2="-55" />
+      <line x1="45" y1="0" x2="55" y2="0" />
+      <line x1="0" y1="45" x2="0" y2="55" />
+      <line x1="-45" y1="0" x2="-55" y2="0" />
+    </g>
+    <!-- Manecillas -->
+    <line x1="0" y1="0" x2="0" y2="-35" stroke="#f8fafc" stroke-width="4" stroke-linecap="round" />
+    <line x1="0" y1="0" x2="25" y2="15" stroke="#f8fafc" stroke-width="3" stroke-linecap="round" />
+    <!-- Centro -->
+    <circle cx="0" cy="0" r="6" fill="url(#textGradient)" />
+    <!-- Simbolo de dinero $ -->
+    <text x="0" y="8" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#6366f1" opacity="0.3">$</text>
+  </g>
+  
+  <!-- Texto principal -->
+  <text x="600" y="320" text-anchor="middle" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="72" font-weight="800" fill="#f8fafc" filter="url(#glow)">
+    TimeBudget
+  </text>
+  
+  <!-- Linea decorativa -->
+  <rect x="450" y="345" width="300" height="3" rx="2" fill="url(#textGradient)" opacity="0.7" />
+  
+  <!-- Subtitulo -->
+  <text x="600" y="400" text-anchor="middle" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="28" fill="#94a3b8">
+    Gestiona tu tiempo como tu dinero
+  </text>
+  
+  <!-- Features tags -->
+  <g font-family="system-ui, -apple-system, Arial, sans-serif" font-size="16">
+    <!-- Tag 1 -->
+    <rect x="280" y="460" width="180" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="370" y="484" text-anchor="middle" fill="#a5b4fc">Presupuesto Base Cero</text>
+    
+    <!-- Tag 2 -->
+    <rect x="480" y="460" width="150" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="555" y="484" text-anchor="middle" fill="#c4b5fd">Analytics en Vivo</text>
+    
+    <!-- Tag 3 -->
+    <rect x="650" y="460" width="180" height="36" rx="18" fill="#1e293b" stroke="#334155" stroke-width="1" />
+    <text x="740" y="484" text-anchor="middle" fill="#a5b4fc">Eliminacion Radical</text>
+  </g>
+  
+  <!-- Footer -->
+  <text x="600" y="570" text-anchor="middle" font-family="system-ui, -apple-system, Arial, sans-serif" font-size="14" fill="#475569">
+    React + TypeScript + Node.js + PostgreSQL
+  </text>
+  
+  <!-- Bordes decorativos en las esquinas -->
+  <path d="M 30 80 L 30 30 L 80 30" stroke="#6366f1" stroke-width="2" fill="none" opacity="0.5" />
+  <path d="M 1120 30 L 1170 30 L 1170 80" stroke="#8b5cf6" stroke-width="2" fill="none" opacity="0.5" />
+  <path d="M 30 550 L 30 600 L 80 600" stroke="#8b5cf6" stroke-width="2" fill="none" opacity="0.5" />
+  <path d="M 1120 600 L 1170 600 L 1170 550" stroke="#6366f1" stroke-width="2" fill="none" opacity="0.5" />
 </svg>
