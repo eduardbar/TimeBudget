@@ -41,12 +41,12 @@ export const useEliminationStore = create<EliminationState & EliminationActions>
     const response = await api.eliminations.getAll(token);
 
     if (response.success && response.data) {
-      const eliminations = response.data as Elimination[];
-      const totalRecoveredMinutes = eliminations.reduce(
-        (sum, e) => sum + e.recoveredMinutes,
-        0
-      );
-      set({ eliminations, totalRecoveredMinutes, isLoading: false });
+      const data = response.data as { eliminations: Elimination[]; totalRecoveredMinutes: number };
+      set({ 
+        eliminations: data.eliminations, 
+        totalRecoveredMinutes: data.totalRecoveredMinutes, 
+        isLoading: false 
+      });
     } else {
       set({ error: response.error?.message, isLoading: false });
     }

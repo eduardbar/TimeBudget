@@ -51,8 +51,8 @@ export function CalendarPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const startTime = `${formData.date}T${formData.startHour}:${formData.startMinute}:00`;
-    const endTime = `${formData.date}T${formData.endHour}:${formData.endMinute}:00`;
+    const startTime = `${formData.date}T${formData.startHour}:${formData.startMinute}:00.000Z`;
+    const endTime = `${formData.date}T${formData.endHour}:${formData.endMinute}:00.000Z`;
 
     const success = await createCalendarBlock({
       title: formData.title,
