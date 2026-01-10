@@ -30,6 +30,11 @@ async function request<T>(endpoint: string, options: RequestOptions = {}): Promi
       body: body ? JSON.stringify(body) : undefined,
     });
 
+    // Handle 204 No Content responses
+    if (response.status === 204) {
+      return { success: true, data: null as T };
+    }
+
     const data = await response.json();
     return data;
   } catch (error) {
