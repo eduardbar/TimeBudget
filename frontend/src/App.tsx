@@ -6,6 +6,7 @@ import { AuthLayout } from './ui/layouts/AuthLayout';
 import { AppLayout } from './ui/layouts/AppLayout';
 
 // Pages
+import { LandingPage } from './ui/pages/LandingPage';
 import { LoginPage } from './ui/pages/LoginPage';
 import { RegisterPage } from './ui/pages/RegisterPage';
 import { DashboardPage } from './ui/pages/DashboardPage';
@@ -41,7 +42,12 @@ const PublicRoute = ({ children }: { children: React.ReactNode }) => {
 function App() {
   return (
     <Routes>
-      {/* Rutas públicas */}
+      {/* Landing Page */}
+      <Route path="/" element={
+        <PublicRoute><LandingPage /></PublicRoute>
+      } />
+
+      {/* Rutas públicas de Auth */}
       <Route element={<AuthLayout />}>
         <Route path="/login" element={
           <PublicRoute><LoginPage /></PublicRoute>
@@ -65,8 +71,7 @@ function App() {
       </Route>
       
       {/* Redirect */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
