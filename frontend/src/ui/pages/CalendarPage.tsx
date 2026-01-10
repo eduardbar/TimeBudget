@@ -30,6 +30,7 @@ export function CalendarPage() {
     startOfWeek(new Date(), { weekStartsOn: 1 })
   );
   const [showForm, setShowForm] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     title: '',
     date: format(new Date(), 'yyyy-MM-dd'),
@@ -80,9 +81,12 @@ export function CalendarPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (confirm('¿Eliminar este bloque de tiempo?')) {
-      await deleteCalendarBlock(id);
-    }
+    await deleteCalendarBlock(id);
+    setDeleteConfirm(null);
+  };
+
+  const confirmDelete = (id: string) => {
+    setDeleteConfirm(id);
   };
 
   const getBlocksForDay = (day: Date): CalendarBlock[] => {
@@ -237,7 +241,7 @@ export function CalendarPage() {
                   key={block.id}
                   className="absolute left-1 right-1 rounded px-1 py-0.5 text-white text-xs overflow-hidden cursor-pointer hover:opacity-90 transition-opacity"
                   style={getBlockStyle(block)}
-                  onClick={() => handleDelete(block.id)}
+                  onClick={() => confirmDelete(block.id)}
                   title={`${block.title} - Click para eliminar`}
                 >
                   <p className="font-medium truncate">{block.title}</p>
@@ -288,7 +292,7 @@ export function CalendarPage() {
                       {formatMinutes(block.durationMinutes)}
                     </span>
                     <button
-                      onClick={() => handleDelete(block.id)}
+                      onClick={() => confirmDelete(block.id)}
                       className="text-red-500 hover:text-red-600"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -465,6 +469,38 @@ export function CalendarPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-xl max-w-sm w-full p-6">
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+                <svg className="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </div>
+              <h3 className="text-lg font-semibold text-dark-900 mb-2">Eliminar bloque</h3>
+              <p className="text-dark-500 mb-6">¿Estás seguro de que deseas eliminar este bloque de tiempo? Esta acción no se puede deshacer.</p>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setDeleteConfirm(null)}
+                  className="btn-secondary flex-1"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={() => handleDelete(deleteConfirm)}
+                  disabled={isLoading}
+                  className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50"
+                >
+                  {isLoading ? 'Eliminando...' : 'Eliminar'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}
