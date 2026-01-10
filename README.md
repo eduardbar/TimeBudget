@@ -184,5 +184,5 @@ TimeBudget sigue los principios de **Clean Architecture**:
 ---
 
 <div align="center">
-  <sub>Desarrollado con ❤️ por Eduardo Barboza</sub>
+  <sub>Desarrollado con ❤️ por Eduard Barrera</sub>
 </div>
