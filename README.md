@@ -1,65 +1,65 @@
-# ⏳ TimeBudget: Gestión del Tiempo con Mentalidad Financiera
+# ⏳ TimeBudget: Time Management with Financial Discipline
 
 ![TimeBudget Preview](frontend/public/og-image.svg)
 
-**TimeBudget** es una plataforma de gestión del tiempo de nivel empresarial, diseñada para personas y organizaciones que quieren tratar sus horas con el mismo rigor que sus finanzas. A diferencia de los calendarios y to-do lists convencionales, TimeBudget aplica el método de **Presupuesto Base Cero** a tu tiempo: cada minuto recibe un propósito antes de que empiece el día.
+**TimeBudget** is an enterprise-level time management platform designed for individuals and organizations that want to treat their hours with the same rigor as their finances. Unlike conventional calendars and to-do lists, TimeBudget applies the **Zero-Based Budgeting** methodology to your time: every minute receives a purpose before the day begins.
 
-## 🚀 Características Principales
+## 🚀 Key Features
 
-- 💰 **Presupuesto Base Cero**: Asigna cada uno de tus 1440 minutos diarios a categorías específicas antes de que comience la jornada.
-- 🗑️ **Eliminación Radical**: Identifica y elimina actividades de bajo valor. Visualiza cuánto tiempo recuperas al decir "no".
-- 📊 **Analytics en Tiempo Real**: Compara tu presupuesto planificado vs. el tiempo real invertido con gráficos interactivos.
-- 🎯 **Sistema de Prioridades**: Define qué es realmente importante y asegura que tenga tiempo garantizado.
-- 🔐 **Autenticación Segura**: Sistema de login con JWT (JSON Web Tokens) y protección de rutas.
-- 📅 **Vista de Calendario**: Visualiza tus actividades y sesiones de trabajo en un calendario interactivo.
-- 🎨 **UI Moderna**: Interfaz elegante y responsiva construida con TailwindCSS.
+- 💰 **Zero-Based Budgeting**: Allocate each of your 1,440 daily minutes to specific categories before the day starts.
+- 🗑️ **Radical Elimination**: Identify and eliminate low-value activities. Visualize how much time you recover by saying "no".
+- 📊 **Real-Time Analytics**: Compare your planned budget vs. actual time invested with interactive charts.
+- 🎯 **Priority System**: Define what truly matters and ensure it has guaranteed time.
+- 🔐 **Secure Authentication**: Login system with JWT (JSON Web Tokens) and route protection.
+- 📅 **Calendar View**: Visualize your activities and work sessions in an interactive calendar.
+- 🎨 **Modern UI**: Elegant and responsive interface built with TailwindCSS.
 
-## 🛠️ Stack Tecnológico
+## 🛠️ Tech Stack
 
-| Capa | Tecnologías |
+| Layer | Technologies |
 |------|-------------|
 | **Frontend** | React 18, Vite, TypeScript, TailwindCSS, Zustand |
 | **Backend** | Node.js, Express.js, TypeScript |
-| **Base de Datos** | PostgreSQL con Prisma ORM |
-| **Autenticación** | JWT (JSON Web Tokens), bcrypt |
+| **Database** | PostgreSQL with Prisma ORM |
+| **Authentication** | JWT (JSON Web Tokens), bcrypt |
 | **Testing** | Vitest, Testing Library |
-| **Infraestructura** | Docker, Docker Compose |
+| **Infrastructure** | Docker, Docker Compose |
 
-## ⚙️ Configuración del Entorno
+## ⚙️ Environment Setup
 
-Crea un archivo `.env` en la carpeta `backend/` con las siguientes variables:
+Create a `.env` file in the `backend/` folder with the following variables:
 
 ```env
-# Base de datos
-DATABASE_URL="postgresql://usuario:password@localhost:5432/timebudget"
+# Database
+DATABASE_URL="postgresql://user:password@localhost:5432/timebudget"
 
-# Autenticación
-JWT_SECRET=tu_secreto_super_seguro
+# Authentication
+JWT_SECRET=your_super_secure_secret
 JWT_EXPIRES_IN=7d
 
 NODE_ENV=development
 PORT=3000
 ```
 
-## 📦 Instalación y Despliegue
+## 📦 Installation and Deployment
 
-### 1. Clonar el repositorio
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/eduardbar/TimeBudget.git
 cd TimeBudget
 ```
 
-### 2. Instalar dependencias
+### 2. Install dependencies
 
-Instala las dependencias del backend y frontend:
+Install backend and frontend dependencies:
 
 ```bash
 cd backend && npm install
 cd ../frontend && npm install
 ```
 
-### 3. Configurar la base de datos
+### 3. Setup database
 
 ```bash
 cd backend
@@ -67,9 +67,9 @@ npx prisma db push
 npx prisma generate
 ```
 
-### 4. Desarrollo Local
+### 4. Local Development
 
-Para correr ambos servidores simultáneamente:
+To run both servers simultaneously:
 
 **Terminal 1 - Backend:**
 ```bash
@@ -83,82 +83,82 @@ cd frontend
 npm run dev
 ```
 
-- Frontend disponible en: `http://localhost:5173`
-- Backend API en: `http://localhost:3000`
+- Frontend available at: `http://localhost:5173`
+- Backend API at: `http://localhost:3000`
 
-### 5. Docker (Producción)
+### 5. Docker (Production)
 
-Para levantar todo el entorno con Docker:
+To start the entire environment with Docker:
 
 ```bash
 docker-compose up --build
 ```
 
-## 📂 Estructura del Proyecto
+## 📂 Project Structure
 
 ```
 TimeBudget/
-├── backend/                  # API REST Express + TypeScript
+├── backend/                  # REST API Express + TypeScript
 │   ├── src/
-│   │   ├── domain/           # Entidades, interfaces, errores
-│   │   ├── application/      # Casos de uso, DTOs
-│   │   ├── infrastructure/   # Base de datos, servicios externos
-│   │   └── presentation/     # Controladores, rutas, middlewares
-│   ├── prisma/               # Schema y migraciones DB
-│   └── tests/                # Tests unitarios e integración
+│   │   ├── domain/           # Entities, interfaces, errors
+│   │   ├── application/      # Use cases, DTOs
+│   │   ├── infrastructure/   # Database, external services
+│   │   └── presentation/     # Controllers, routes, middlewares
+│   ├── prisma/               # Schema and DB migrations
+│   └── tests/                # Unit and integration tests
 ├── frontend/                 # SPA React + Vite
 │   ├── src/
-│   │   ├── ui/               # Páginas y layouts
-│   │   ├── shared/           # Componentes reutilizables
-│   │   ├── store/            # Estado global (Zustand)
-│   │   └── services/         # Cliente API
-│   └── tests/                # Tests de componentes
+│   │   ├── ui/               # Pages and layouts
+│   │   ├── shared/           # Reusable components
+│   │   ├── store/            # Global state (Zustand)
+│   │   └── services/         # API client
+│   └── tests/                # Component tests
 └── docker-compose.yml
 ```
 
 ## 📡 API Endpoints
 
-### Autenticación (`/api/auth`)
-| Método | Endpoint | Descripción |
+### Authentication (`/api/auth`)
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/register` | Registrar nuevo usuario |
-| `POST` | `/login` | Iniciar sesión (retorna JWT) |
-| `GET` | `/me` | Obtener usuario autenticado |
+| `POST` | `/register` | Register new user |
+| `POST` | `/login` | Login (returns JWT) |
+| `GET` | `/me` | Get authenticated user |
 
-### Presupuesto de Tiempo (`/api/time-budgets`)
-| Método | Endpoint | Descripción |
+### Time Budgets (`/api/time-budgets`)
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/` | Crear nuevo presupuesto semanal |
-| `GET` | `/current` | Obtener presupuesto de la semana actual |
-| `PUT` | `/:id` | Actualizar presupuesto existente |
+| `POST` | `/` | Create new weekly budget |
+| `GET` | `/current` | Get current week's budget |
+| `PUT` | `/:id` | Update existing budget |
 
-### Actividades (`/api/activities`)
-| Método | Endpoint | Descripción |
+### Activities (`/api/activities`)
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/` | Registrar nueva actividad |
-| `GET` | `/` | Listar actividades del usuario |
-| `DELETE` | `/:id` | Eliminar actividad |
+| `POST` | `/` | Register new activity |
+| `GET` | `/` | List user activities |
+| `DELETE` | `/:id` | Delete activity |
 
 ## 🧪 Testing
 
-Usamos **Vitest** para pruebas unitarias y de integración:
+We use **Vitest** for unit and integration testing:
 
 ```bash
-# Tests del Backend
+# Backend tests
 cd backend
 npm run test
 
-# Tests del Frontend
+# Frontend tests
 cd frontend
 npm run test
 
-# Tests con cobertura
+# Tests with coverage
 npm run test:coverage
 ```
 
-## 🏗️ Arquitectura
+## 🏗️ Architecture
 
-TimeBudget sigue los principios de **Clean Architecture**:
+TimeBudget follows **Clean Architecture** principles:
 
 ```
 ┌─────────────────────────────────────────────────────┐
@@ -176,13 +176,13 @@ TimeBudget sigue los principios de **Clean Architecture**:
 └─────────────────────────────────────────────────────┘
 ```
 
-- **Domain**: Entidades puras y lógica de negocio (sin dependencias externas).
-- **Application**: Casos de uso y orquestación.
-- **Infrastructure**: Implementación de repositorios, servicios externos.
-- **Presentation**: Controladores REST y rutas HTTP.
+- **Domain**: Pure entities and business logic (no external dependencies).
+- **Application**: Use cases and orchestration.
+- **Infrastructure**: Repository implementation, external services.
+- **Presentation**: REST controllers and HTTP routes.
 
 ---
 
 <div align="center">
-  <sub>Desarrollado con ❤️ por Eduard Barrera</sub>
+  <sub>Developed with ❤️ by Eduard Barrera</sub>
 </div>
